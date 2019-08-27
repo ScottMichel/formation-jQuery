@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jQuery Start</title>
+    <!-- va chercher le script jquery-->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+
+    <script>
+
+        //On fait une fonction du buttonClick
+        //On lie la fonction au bouton, a chaque fois que l'on clique sur un boutton, 
+        //Le css se mets en marche
+        function buttonClick() {
+            //On mets this ici pour éviter que tout les boutons ne s'activent en même temps
+            //Uniquement sur lequel on a cliqué
+            $(this)
+                .css({
+                    "color": "red",
+                    "background-color": "black",
+                    "padding": "5px",
+                })//Fin this css
+                //Puis 
+                .text("Je suis cliqué")
+                .attr("disabled", "disabled")
+                
+
+            animatedTitle();
+        }
+
+        function animatedTitle() {
+            var $h1 = $("h1");
+
+            //cache les éléments h1
+            $h1.hide(1000, function () {
+                //Le $(this) va préciser qu'on utilise le h1 d'avant sans le répeter
+                $(this).show(1000);
+            });
+
+            $h1.text(function (index, oldValue) {
+                return (index + 1) + " : " + oldValue
+            });
+        }
+
+        //va préparer le dom et va pouvoir effectuer toutes les commandes demandés
+        $(document).ready(function () {
+            //Ici on a mis la fonction plus haut dans le $("button")
+            $("button").click(buttonClick);//fin d'évenement de click button
+        });//Fin de document ready  
+    </script>
+</head>
+
+<body>
+    <button>GO</button>
+    <button>GO</button>
+    <button>GO</button>
+
+    <h1>Hello jQuery</h1>
+
+    <h1>Hello jQuery</h1>
+
+    <h1>Hello jQuery</h1>
+</body>
+
+</html>

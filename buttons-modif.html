@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Button modif</title>
+    <style>
+    .active{
+        box-shadow: 0px 0px 5px yellow;
+        border-bottom: solid 1px red;
+    }
+
+    nav {
+        margin: 25px 5px;
+    }
+
+    div {
+        margin: 10px 5px
+    }
+    
+    </style>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+
+    function navClick(){
+        $navButtons.removeClass("active");
+        $(this).toggleClass("active");
+        
+    }
+    function changeTheme(){
+        let theme ={
+            "color": $foreColorSelect.val(),
+            "background-color": $backColorSelect.val(),
+        };
+        $("body").css(theme);
+    }
+
+    $(document).ready(function(){
+        //Définition des cibles (éléments sur lesquels intervenir)
+        $navButtons = $("nav button");
+        $changeThemeButton = $("#changeTheme");
+        $foreColorSelect = $("#foreColor");
+        $backColorSelect = $("#backColor");
+
+        //Définir les événements
+        $navButtons.click(navClick);
+        $changeThemeButton.click(changeTheme);
+
+    })
+</script>
+
+</head>
+
+<body>
+    <nav>
+        <button class="active">Home</button>
+        <button>Produits</button>
+        <button>Contact</button>
+    </nav>
+    <div>
+        <label>Couleur de texte</label>
+        <select id="foreColor">
+            <option value="red">Rouge</option>
+            <option value="blue">Bleu</option>
+            <option value="green">Vert</option>
+        </select>
+    </div>
+    <br>
+    <div>
+        <label>Couleur de fond</label>
+        <select id="backColor">
+            <option value="yellow">Jaune</option>
+            <option value="pink">Rose</option>
+            <option value="black">Noir</option>
+        </select>
+    </div>
+    <br>
+    <button id="changeTheme">changer le thème</button>
+</body>
+</html>
