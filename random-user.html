@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Random User</title>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script>
+        function loadCallback(response) {
+            let user = response.results[0];
+            //Récupération des données et insertion dans le DOM
+            //Affichage des images, noms, prénoms et nationalité
+            $("#userImage").attr("src", user.picture.large);
+            $("#userName").text(user.name.first + " " + user.name.last + " " + user.nat);
+        }
+
+        // On va créer des variables qui vont cibler les id que j'aurai placé dans le HTML
+        // puis on va lier les 2 premières variables aux valeurs de l'API
+        function loadRandomUser() {
+            let genderChoice = $("#genderSelect").val();
+            let countryChoice = $("#natSelect").val();
+            let params = {
+                gender: genderChoice,
+                nat: countryChoice
+            }
+            //Ici on va ensuite entrer ces valeurs pour les enregistrer
+            $.get("https://randomuser.me/api", params, loadCallback);
+        }
+
+        $(document).ready(function () {
+            $("#loadButton").click(loadRandomUser);
+        })
+
+
+    </script>
+</head>
+
+<body class="container-fluid">
+
+    <div class="row justify-content-center">
+        <div class="col-md-3 mt-4">
+            <div class="form-group">
+                <label>Genre</label>
+                <select class="form-control" id="genderSelect">
+                    <option value="female">Femme</option>
+                    <option value="male">Homme</option>
+                </select>
+            </div>
+            <div>
+                <label>Nationalité</label>
+                <select id="natSelect" class="form-control">
+                        <option value="FR">France</option>
+                        <option value="US">USA</option>
+                        <option value="ES">Espagne</option>
+                        <option value="FI">Finlande</option>
+                        <option value="EI">Irelande</option>
+                        <option value="NO">Norvege</option>
+                        <option value="DE">Allemagne</option>
+                </select>
+            </div>
+            <div>
+                <button class="btn btn-primary btn-block" id="loadButton">
+                    Charger un utilisateur
+                </button>
+            </div>
+        </div>
+
+        <div class="card col-4">
+            <img class="card-img-top" id="userImage">
+            <div class="card-body">
+                <h5 class="card-title" id="userName"></h5>
+
+            </div>
+        </div>
+
+</body>
+
+</html>

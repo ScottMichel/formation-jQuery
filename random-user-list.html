@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Random User</title>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script>
+
+        var userList = [];
+
+        function loadCallback(response) {
+            console.log(response.results);
+            userList = response.results;
+            //Creation et duplication de tr dans le tbody
+            let template = $("tbody tr").eq(0);
+            //Création d'un tbody fantome et réinjecter le template a chaque fois
+            let shadowBody = $("<tbody></tbody>");
+            //intégration de template a shadowbody
+            shadowBody.append(template);
+
+            for (index in userList) {
+                let row = getRow(userList[index], template);
+                shadowBody.append(row);
+            }
+
+            $("tbody").replaceWith(shadowBody);
+
+        }
+
+        function getRow(user, template) {
+
+
+            let row = template.clone().removeClass("hidden");
+            //On va chercher a afficher les informations récupérés.
+            row.children().eq(0).text(user.name.first + " " + user.name.last);
+            row.children().eq(1).text(user.email);
+            row.children().eq(2).text(user.location.street + " "
+                + user.location.postcode + " "
+                + user.location.city);
+            return row;
+        }
+
+        // On va créer des variables qui vont cibler les id que j'aurai placé dans le HTML
+        // puis on va lier les 2 premières variables aux valeurs de l'API
+        function loadRandomUsers() {
+            let genderChoice = $("#genderSelect").val();
+            let countryChoice = $("#natSelect").val();
+
+            let params = {
+                gender: genderChoice,
+                nat: countryChoice,
+                results: 20
+            }
+            //Ici on va ensuite entrer ces valeurs pour les enregistrer
+            $.get("https://randomuser.me/api", params, loadCallback);
+        }
+
+        $(document).ready(function () {
+            $("#loadButton").click(loadRandomUsers);
+        })
+
+
+    </script>
+    <style>
+        .hidden {
+            display: none
+        }
+    </style>
+</head>
+
+<body class="container-fluid">
+
+    <div class="row justify-content-center">
+        <div class="col-md-3 mt-4">
+            <div class="form-group">
+                <label>Genre</label>
+                <select class="form-control" id="genderSelect">
+                    <option value="female">Femme</option>
+                    <option value="male">Homme</option>
+                </select>
+            </div>
+            <div>
+                <label>Nationalité</label>
+                <select id="natSelect" class="form-control">
+                    <option value="FR">France</option>
+                    <option value="US">USA</option>
+                    <option value="ES">Espagne</option>
+                    <option value="FI">Finlande</option>
+                    <option value="EI">Irelande</option>
+                    <option value="NO">Norvege</option>
+                    <option value="DE">Allemagne</option>
+                </select>
+            </div>
+            <div>
+                <button class="btn btn-primary btn-block" id="loadButton">
+                    Charger un utilisateur
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <table class="table table-bordered table-striped mt-5">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Adresse</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr class="hidden">
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
