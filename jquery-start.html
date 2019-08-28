@@ -26,9 +26,50 @@
                 //Puis 
                 .text("Je suis cliqué")
                 .attr("disabled", "disabled")
-                
+
 
             animatedTitle();
+        }
+
+        function testFade() {
+            var $h1 = $("h1");
+
+            $h1.fadeOut(1000, function () {
+                $(this).fadeIn(1000);
+            });
+        }
+
+        function testSlide() {
+            var $h1 = $("h1");
+
+            $h1.slideUp(1000, function () {
+                $(this).slideDown(1000);
+            });
+        }
+
+        function testShow() {
+            var $h1 = $("h1");
+
+            $h1.hide(1000, function () {
+                $(this).show(1000);
+            });
+
+            $h1.text(function (index, oldValue) {
+                return (index + 1) + " : " + oldValue;
+            });
+
+            animateSpaceship();
+        }
+
+        function animateSpaceship() {
+            $("#spaceship").animate(
+                {
+                    width: "5%",
+                    left: "+=500px",
+                    opacity: ".5"
+                },
+                1000
+            );
         }
 
         function animatedTitle() {
@@ -48,21 +89,27 @@
         //va préparer le dom et va pouvoir effectuer toutes les commandes demandés
         $(document).ready(function () {
             //Ici on a mis la fonction plus haut dans le $("button")
-            $("button").click(buttonClick);//fin d'évenement de click button
+            $("#bt1").click(testShow);//fin d'évenement de click button
+            $("#bt2").click(testSlide);//fin d'évenement de click button
+            $("#bt3").click(testFade);//fin d'évenement de click button
         });//Fin de document ready  
     </script>
 </head>
 
 <body>
-    <button>GO</button>
-    <button>GO</button>
-    <button>GO</button>
+    <button id="bt1">show</button>
+    <button id="bt2">Slide</button>
+    <button id="bt3">Fade</button>
+
+    <div style="background-color:blue; width: 200px; height: 200px" id="bloc">aaa</div>
 
     <h1>Hello jQuery</h1>
 
     <h1>Hello jQuery</h1>
 
     <h1>Hello jQuery</h1>
+
+    <img src="img/spaceship.png" id="spaceship" style="position: absolute">
 </body>
 
 </html>
